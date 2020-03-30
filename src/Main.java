@@ -25,7 +25,7 @@ public class Main {
                 System.out.println("\t<tr>" + array.get(i) + "</tr>");
             }
             System.out.println("</table>\n" +
-                    "<p>Last Updated: " + stats.date + "</p>\n");
+                    "<p><b>Total team score:</b> " + stats.teamScore + "<br><b>Total work units processed:</b> " + stats.teamWU + "<br>Last Updated: " + stats.date + "</p>");
         }
     }
 }
