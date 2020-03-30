@@ -25,8 +25,7 @@ public class Main {
                 System.out.println("\t<tr>" + array.get(i) + "</tr>");
             }
             System.out.println("</table>\n" +
-                    "<p>Last Updated: " + stats.date + "</p>\n" +
-                    "<p><a href=\"https://github.com/TheFuzzyFish/FAHStats\">FAHStats</a></p>");
+                    "<p>Last Updated: " + stats.date + "</p>\n");
         }
     }
 }
