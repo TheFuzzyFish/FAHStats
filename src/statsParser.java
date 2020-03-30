@@ -53,7 +53,7 @@ public class statsParser {
             scan.close();
         } catch (FileNotFoundException e) {
             System.out.println("File " + filepath + " not found. Perhaps it doesn't exist?");
-
+            return;
         }
     }
 

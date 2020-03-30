@@ -10,21 +10,23 @@ public class Main {
             return;
         }
 
-	    statsParser stats = new statsParser(args[0], Integer.parseInt(args[1]));
+        statsParser stats = new statsParser(args[0], Integer.parseInt(args[1]));
         ArrayList<String> array = stats.getUserStats();
 
-        System.out.println("<table style=\"width:100%\">\n" +
-                "\t<tr>\n" +
-                "\t\t<th>Username</th>\n" +
-                "\t\t<th>% of Score Contribution</th>\n" +
-                "\t\t<th>% of WU Contribution</th>\n" +
-                "\t</tr>\n"); // Prints header info
-        /* Prints out the ArrayList */
-        for (int i = 0; i < array.size(); i++) {
-            System.out.println("\t<tr>" + array.get(i) + "</tr>");
+        if (stats.teamScore != 0) {
+            System.out.println("<table style=\"width:100%\">\n" +
+                    "\t<tr>\n" +
+                    "\t\t<th>Username</th>\n" +
+                    "\t\t<th>% of Score Contribution</th>\n" +
+                    "\t\t<th>% of WU Contribution</th>\n" +
+                    "\t</tr>\n"); // Prints header info
+            /* Prints out the ArrayList */
+            for (int i = 0; i < array.size(); i++) {
+                System.out.println("\t<tr>" + array.get(i) + "</tr>");
+            }
+            System.out.println("</table>\n" +
+                    "<p>Last Updated: " + stats.date + "</p>\n" +
+                    "<p><a href=\"https://github.com/TheFuzzyFish/FAHStats\">FAHStats</a></p>");
         }
-        System.out.println("</table>\n" +
-                "<p>Last Updated: " + stats.date + "</p>\n" +
-                "<p><a href=\"https://github.com/TheFuzzyFish/FAHStats\">FAHStats</a></p>");
     }
 }
