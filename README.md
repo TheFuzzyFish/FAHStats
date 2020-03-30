@@ -29,9 +29,11 @@ FAHStat will output an HTML formatted table in the following format:
 		<th>% of WU Contribution</th>
 	</tr>
 
-	<tr><td>user1</td><td>63.75%</td><td>11.11%</td></tr>
-	<tr><td>user2</td><td>30.25%</td><td>77.78%</td></tr>
-	<tr><td>user3</td><td>6.0%</td><td>11.11%</td></tr>
+	<tr><td>user1</td><td>51.79%</td><td>23.08%</td></tr>
+	<tr><td>user2</td><td>24.96%</td><td>61.54%</td></tr>
+	<tr><td>user3</td><td>20.84%</td><td>7.69%</td></tr>
+	<tr><td>user4</td><td>2.4%</td><td>7.69%</td></tr>
 </table>
-<p>Last Updated: Mon Mar 30 17:51:40 GMT 2020</p>
+<p><b>Total team score:</b> 36870<br><b>Total work units processed:</b> 13<br>Last Updated: Mon Mar 30 23:16:43 GMT 2020</p>
+
 ```
