@@ -23,17 +23,20 @@ The program parses the first 2 lines, then will skip empty lines or lines that d
 FAHStat will output an HTML formatted table in the following format:
 ```html
 <table style="width:100%">
-	<tr>
-		<th>Username</th>
-		<th>% of Score Contribution</th>
-		<th>% of WU Contribution</th>
-	</tr>
+        <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Score Contribution</th>
+                <th>WU Contribution</th>
+        </tr>
 
-	<tr><td>user1</td><td>51.79%</td><td>23.08%</td></tr>
-	<tr><td>user2</td><td>24.96%</td><td>61.54%</td></tr>
-	<tr><td>user3</td><td>20.84%</td><td>7.69%</td></tr>
-	<tr><td>user4</td><td>2.4%</td><td>7.69%</td></tr>
+        <tr><td>1</td><td><b>Jim</b></td><td><b>74350 pts</b><br><i>27.34%</i></td><td><b>9 units</b><br><i>20.45%</i></td></tr>
+        <tr><td>2</td><td><b>Jessica</b></td><td><b>72251 pts</b><br><i>26.57%</i></td><td><b>18 units</b><br><i>40.91%</i></td></tr>
+        <tr><td>3</td><td><b>Josh</b></td><td><b>58717 pts</b><br><i>21.59%</i></td><td><b>7 units</b><br><i>15.91%</i></td></tr>
+        <tr><td>4</td><td><b>Jacob</b></td><td><b>38953 pts</b><br><i>14.32%</i></td><td><b>5 units</b><br><i>11.36%</i></td></tr>
+        <tr><td>5</td><td><b>Joe</b></td><td><b>26781 pts</b><br><i>9.85%</i></td><td><b>4 units</b><br><i>9.09%</i></td></tr>
+        <tr><td>6</td><td><b>Jayden</b></td><td><b>885 pts</b><br><i>0.33%</i></td><td><b>1 units</b><br><i>2.27%</i></td></tr>
 </table>
-<p><b>Total team score:</b> 36870<br><b>Total work units processed:</b> 13<br>Last Updated: Mon Mar 30 23:16:43 GMT 2020</p>
+<p><b>Total team score:</b> 271937<br><b>Total work units processed:</b> 44<br>Last Updated: Thu Apr 02 02:17:14 GMT 2020</p>
 
 ```

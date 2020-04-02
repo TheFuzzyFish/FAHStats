@@ -16,9 +16,10 @@ public class Main {
         if (stats.teamScore != 0) {
             System.out.println("<table style=\"width:100%\">\n" +
                     "\t<tr>\n" +
+                    "\t\t<th>Rank</th>\n" +
                     "\t\t<th>Username</th>\n" +
-                    "\t\t<th>% of Score Contribution</th>\n" +
-                    "\t\t<th>% of WU Contribution</th>\n" +
+                    "\t\t<th>Score Contribution</th>\n" +
+                    "\t\t<th>WU Contribution</th>\n" +
                     "\t</tr>\n"); // Prints header info
             /* Prints out the ArrayList */
             for (int i = 0; i < array.size(); i++) {

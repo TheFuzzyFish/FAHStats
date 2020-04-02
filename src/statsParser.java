@@ -28,6 +28,7 @@ public class statsParser {
             date = scan.nextLine();
             scan.nextLine();
 
+            /* Runs through the whole file and only pulls out the lines that match the given team number, adding them to an ArrayList */
             String line;
             while (scan.hasNextLine()) {
                 line = scan.nextLine();
@@ -90,7 +91,7 @@ public class statsParser {
             percScore = ((double) tmpScore / this.teamScore) * 100;
             percWU = ((double) tmpWU / this.teamWU) * 100;
 
-            userStats.add("<td>" + username + "</td><td>" + Math.round(percScore * 100.0) / 100.0 + "%</td><td>" + Math.round(percWU * 100.0) / 100.0 + "%</td>");
+            userStats.add("<td>" + (i + 1) + "</td><td><b>" + username + "</b></td><td><b>" + tmpScore + " pts</b><br><i>" + Math.round(percScore * 100.0) / 100.0 + "%</i></td><td><b>" + tmpWU + " units</b><br><i>" + Math.round(percWU * 100.0) / 100.0 + "%</i></td>");
             userPercScores.add(percScore);
         }
 
