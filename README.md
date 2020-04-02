@@ -40,3 +40,7 @@ FAHStat will output an HTML formatted table in the following format:
 <p><b>Total team score:</b> 271937<br><b>Total work units processed:</b> 44<br>Last Updated: Thu Apr 02 02:17:14 GMT 2020</p>
 
 ```
+
+# Notes
+ - My search algorithm is awful. You *can* run it on the current statistics and finish within a few seconds, but you'd really be better off in the long run by filtering it with a faster search algorithm as implemented in grep or awk. My driver script uses awk like so: <pre> curl --output - https://apps.foldingathome.org/daily_user_summary.txt.bz2 | bzip2 -d | awk 'NR==1 || NR==2 || /255847/' > fahstats.txt </pre>
+ - I currently do not provide any switches or flags to customize the outputted table. The reasoning behind this is simple: I don't care enough to. If you want to implement this on your own site, you're likely savvy enough to edit the source code yourself. You're probably looking for line 94 in statsParser.java
