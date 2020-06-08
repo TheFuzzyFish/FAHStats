@@ -1,3 +1,5 @@
+import java.math.BigInteger;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class Main {
@@ -10,10 +12,10 @@ public class Main {
             return;
         }
 
-        statsParser stats = new statsParser(args[0], Integer.parseInt(args[1]));
+        statsParser stats = new statsParser(args[0], Long.parseLong(args[1]));
         ArrayList<String> array = stats.getUserStats();
 
-        if (stats.teamScore != 0) {
+        if (stats.teamScore.compareTo(new BigInteger("0")) != 0) {
             System.out.println("<table style=\"width:100%\">\n" +
                     "\t<tr>\n" +
                     "\t\t<th>Username</th>\n" +
@@ -25,7 +27,7 @@ public class Main {
                 System.out.println("\t<tr>" + array.get(i) + "</tr>");
             }
             System.out.println("</table>\n" +
-                    "<p><b>Total team score:</b> " + stats.teamScore + "<br><b>Total work units processed:</b> " + stats.teamWU + "<br>Last Updated: " + stats.date + "</p>");
+                    "<p><b>Total team score:</b> " + NumberFormat.getNumberInstance().format(stats.teamScore) + "<br><b>Total work units processed:</b> " + NumberFormat.getNumberInstance().format(stats.teamWU) + "<br>Last Updated: " + stats.date + "</p>");
         }
     }
 }

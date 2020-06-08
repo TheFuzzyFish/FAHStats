@@ -1,5 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -7,23 +10,24 @@ import java.util.StringTokenizer;
 public class statsParser {
     private ArrayList<String> statsList; // Stores stats of the team in "username score wu team" format
     public String date; // The date taken from the statistics file (assumed to be first line)
-    public long teamScore; // The total score of the team
-    public long teamWU; // The total number of work units the team has completed
+    public BigInteger teamScore; // The total score of the team
+    public BigInteger teamWU; // The total number of work units the team has completed
 
     /**
      * Opens up a tab-delimited file from Folding@Home and compiles team-wide percentages of contribution
      * @param filepath the path to the decompressed statistics file (download from https://apps.foldingathome.org/daily_user_summary.txt.bz2)
      * @param teamNumber the team number to compile statistics for
      */
-    public statsParser(String filepath, int teamNumber) {
+    public statsParser(String filepath, long teamNumber) {
         statsList = new ArrayList<>();
-        teamScore = 0;
+        teamScore = BigInteger.ZERO;
+        teamWU = BigInteger.ZERO;
 
         try {
             File file = new File(filepath);
             Scanner scan = new Scanner(file);
-            long wu; // Used to temporarily store work units for users
-            long score; // Used to temporarily store the score of users
+            BigInteger wu; // Used to temporarily store work units for users
+            BigInteger score; // Used to temporarily store the score of users
 
             date = scan.nextLine();
             scan.nextLine();
@@ -32,18 +36,18 @@ public class statsParser {
             while (scan.hasNextLine()) {
                 line = scan.nextLine();
 
-                if (line.contains(Integer.toString(teamNumber))) { // This greatly speeds up the searching algorithm by mostly avoiding the creation of unnecessary objects
+                if (line.contains(Long.toString(teamNumber))) { // This greatly speeds up the searching algorithm by mostly avoiding the creation of unnecessary objects
                     if (!line.isBlank() && new StringTokenizer(line, "\t").countTokens() == 4) { // Weeds out corrupted and blank lines
                         Scanner lineScan = new Scanner(line).useDelimiter("\t");
 
                         lineScan.next(); // Skips username
-                        score = lineScan.nextLong(); // Skips user score
-                        wu = lineScan.nextLong(); // Skips user WU
+                        score = lineScan.nextBigInteger(); // Skips user score
+                        wu = lineScan.nextBigInteger(); // Skips user WU
 
                         if (lineScan.nextInt() == teamNumber) { // If the user belongs to the team specified, add it to the list
                             statsList.add(line);
-                            teamWU += wu;
-                            teamScore += score;
+                            teamWU = teamWU.add(wu);
+                            teamScore = teamScore.add(score);
                         }
                     }
                 }
@@ -73,30 +77,34 @@ public class statsParser {
         ArrayList<String> userStats = new ArrayList<String>(); // Stores the users and their percentages of contribution in "username %score %wu" format
         ArrayList<Double> userPercScores = new ArrayList<Double>(); // Stores the corresponding score percentages of each user (used for sorting)
 
-        long tmpScore = 0;
-        long tmpWU = 0;
+        BigInteger tmpScore;
+        BigInteger tmpWU;
 
         /* Calculates percentages of contribution and adds them to the ArrayLists */
         Scanner scan;
         String username;
-        double percScore;
-        double percWU;
+        BigDecimal percScore;
+        BigDecimal percWU;
         for (int i = 0; i < this.statsList.size(); i++) {
             scan = new Scanner(statsList.get(i));
             username = scan.next();
-            tmpScore = scan.nextInt();
-            tmpWU = scan.nextInt();
+            tmpScore = scan.nextBigInteger();
+            tmpWU = scan.nextBigInteger();
 
-            percScore = ((double) tmpScore / this.teamScore) * 100;
-            percWU = ((double) tmpWU / this.teamWU) * 100;
+            percScore = new BigDecimal(tmpScore).divide(new BigDecimal(this.teamScore), 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
+            percWU = new BigDecimal(tmpWU).divide(new BigDecimal(this.teamWU), 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
 
-            userStats.add("<td>" + username + "</td><td>" + Math.round(percScore * 100.0) / 100.0 + "%</td><td>" + Math.round(percWU * 100.0) / 100.0 + "%</td>");
-            userPercScores.add(percScore);
+            percScore = percScore.setScale(2, RoundingMode.HALF_UP);
+            percWU = percWU.setScale(2, RoundingMode.HALF_UP);
+
+            userStats.add("<td>" + username + "</td><td>" + percScore.toString() + "%</td><td>" + percWU.toString() + "%</td>");
+            userPercScores.add(percScore.doubleValue());
         }
 
         /* Runs bubble sort to sort the team statistics based on their point contributions */
         boolean unsorted = true;
         String tmp;
+        double tmp2;
         while (unsorted) {
             unsorted = false;
             for (int i = 1; i < userStats.size(); i++) {
@@ -106,6 +114,10 @@ public class statsParser {
                     tmp = userStats.get(i);
                     userStats.set(i, userStats.get(i - 1));
                     userStats.set(i - 1, tmp);
+
+                    tmp2 = userPercScores.get(i);
+                    userPercScores.set(i, userPercScores.get(i - 1));
+                    userPercScores.set(i - 1, tmp2);
                 }
             }
         }
