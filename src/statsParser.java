@@ -3,6 +3,7 @@ import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.StringTokenizer;
@@ -97,7 +98,7 @@ public class statsParser {
             percScore = percScore.setScale(2, RoundingMode.HALF_UP);
             percWU = percWU.setScale(2, RoundingMode.HALF_UP);
 
-            userStats.add("<td>" + username + "</td><td>" + percScore.toString() + "%</td><td>" + percWU.toString() + "%</td>");
+            userStats.add("<td>" + (i + 1) + "</td><td><b>" + username + "</b></td><td><b>" + NumberFormat.getNumberInstance().format(tmpScore) + " pts</b><br><i>" + percScore.toString() + "%</i></td><td><b>" + NumberFormat.getNumberInstance().format(tmpWU) + " units</b><br><i>" + percWU.toString() + "%</i></td>");
             userPercScores.add(percScore.doubleValue());
         }
 
