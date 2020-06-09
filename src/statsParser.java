@@ -6,7 +6,6 @@ import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.StringTokenizer;
 
 public class statsParser {
     private ArrayList<String> statsList; // Stores stats of the team in "username score wu team" format
@@ -35,22 +34,26 @@ public class statsParser {
 
             String line;
             while (scan.hasNextLine()) {
-                line = scan.nextLine();
+                try {
+                    line = scan.nextLine();
 
-                if (line.contains(Long.toString(teamNumber))) { // This greatly speeds up the searching algorithm by mostly avoiding the creation of unnecessary objects
-                    if (!line.isBlank() && new StringTokenizer(line, "\t").countTokens() == 4) { // Weeds out corrupted and blank lines
-                        Scanner lineScan = new Scanner(line).useDelimiter("\t");
+                    if (line.contains(Long.toString(teamNumber))) { // This greatly speeds up the searching algorithm by mostly avoiding the creation of unnecessary objects
+                        if (!line.isBlank()) { // Weeds out blank lines
+                            Scanner lineScan = new Scanner(line).useDelimiter("\t");
 
-                        lineScan.next(); // Skips username
-                        score = lineScan.nextBigInteger(); // Skips user score
-                        wu = lineScan.nextBigInteger(); // Skips user WU
+                            lineScan.next(); // Skips username
+                            score = lineScan.nextBigInteger(); // Skips user score
+                            wu = lineScan.nextBigInteger(); // Skips user WU
 
-                        if (lineScan.nextInt() == teamNumber) { // If the user belongs to the team specified, add it to the list
-                            statsList.add(line);
-                            teamWU = teamWU.add(wu);
-                            teamScore = teamScore.add(score);
+                            if (lineScan.nextInt() == teamNumber) { // If the user belongs to the team specified, add it to the list
+                                statsList.add(line);
+                                teamWU = teamWU.add(wu);
+                                teamScore = teamScore.add(score);
+                            }
                         }
                     }
+                } catch (Exception e) {
+                    continue; // Weeds out corrupted lines
                 }
             }
 
@@ -87,19 +90,23 @@ public class statsParser {
         BigDecimal percScore;
         BigDecimal percWU;
         for (int i = 0; i < this.statsList.size(); i++) {
-            scan = new Scanner(statsList.get(i));
-            username = scan.next();
-            tmpScore = scan.nextBigInteger();
-            tmpWU = scan.nextBigInteger();
+            try {
+                scan = new Scanner(statsList.get(i));
+                username = scan.next();
+                tmpScore = scan.nextBigInteger();
+                tmpWU = scan.nextBigInteger();
 
-            percScore = new BigDecimal(tmpScore).divide(new BigDecimal(this.teamScore), 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
-            percWU = new BigDecimal(tmpWU).divide(new BigDecimal(this.teamWU), 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
+                percScore = new BigDecimal(tmpScore).divide(new BigDecimal(this.teamScore), 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
+                percWU = new BigDecimal(tmpWU).divide(new BigDecimal(this.teamWU), 4, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(100));
 
-            percScore = percScore.setScale(2, RoundingMode.HALF_UP);
-            percWU = percWU.setScale(2, RoundingMode.HALF_UP);
+                percScore = percScore.setScale(2, RoundingMode.HALF_UP);
+                percWU = percWU.setScale(2, RoundingMode.HALF_UP);
 
-            userStats.add("<td>" + (i + 1) + "</td><td><b>" + username + "</b></td><td><b>" + NumberFormat.getNumberInstance().format(tmpScore) + " pts</b><br><i>" + percScore.toString() + "%</i></td><td><b>" + NumberFormat.getNumberInstance().format(tmpWU) + " units</b><br><i>" + percWU.toString() + "%</i></td>");
-            userPercScores.add(percScore.doubleValue());
+                userStats.add("<td>" + (i + 1) + "</td><td><b>" + username + "</b></td><td><b>" + NumberFormat.getNumberInstance().format(tmpScore) + " pts</b><br><i>" + percScore.toString() + "%</i></td><td><b>" + NumberFormat.getNumberInstance().format(tmpWU) + " units</b><br><i>" + percWU.toString() + "%</i></td>");
+                userPercScores.add(percScore.doubleValue());
+            } catch (Exception e) {
+                continue; // Weeds out corrupted lines
+            }
         }
 
         /* Runs bubble sort to sort the team statistics based on their point contributions */
